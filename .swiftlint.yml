@@ -1,0 +1,12 @@
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+- Pods
+
+# rules that have both warning and error levels, can set just the warning level
+# implicitly
+line_length: 250
+
+disabled_rules: 
+  - trailing_whitespace
+  - implicit_getter
+
+reporter: "xcode" # reporter type (xcode, json, csv, checkstyle, junit, html, emoji)
