@@ -8,7 +8,6 @@
 
 import ObjectMapper
 
-
 // MARK: - CharacterThumbnail
 struct CharacterThumbnail {
     var path: String?

@@ -16,6 +16,7 @@ struct GetCharactersRequest {
     let orderBy: OrderBy?
     let limit: Int?
     let offset: Int?
+    let nameStartsWith: String?
 }
 
 extension GetCharactersRequest: ImmutableMappable {
@@ -24,11 +25,13 @@ extension GetCharactersRequest: ImmutableMappable {
         orderBy = try map.value("orderBy")
         limit = try map.value("limit")
         offset = try map.value("offset")
+        nameStartsWith = try map.value("nameStartsWith")
     }
     
     mutating func mapping(map: Map) {
         orderBy >>> map["orderBy"]
         limit >>> map["limit"]
         offset >>> map["offset"]
+        nameStartsWith >>> map["nameStartsWith"]
     }
 }

@@ -35,7 +35,10 @@ class CharactersViewController: UIViewController {
         self.viewModel = CharactersViewModel(service: service)
         
         containerView.collectionView?.delegate = self
+        containerView.searchBar.delegate = self
+        
         setupBindings()
+        
         viewModel?.getCharacters()
             .bind(to: rx.state)
             .disposed(by: disposeBag)
@@ -53,14 +56,15 @@ class CharactersViewController: UIViewController {
                     let url = URL(string: char.thumbnail ?? "")
                     cell.thumbnail.kf.setImage(with: url)
             }.disposed(by: disposeBag)
-            
-            collectionView.rx.willDisplayCell
-                .subscribe(onNext: ({ (cell, _) in
+
+            //TODO: remove
+//            collectionView.rx.willDisplayCell
+//                .subscribe(onNext: ({ (cell, _) in
 //                    cell.alpha = 0
 //                    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
 //                        cell.alpha = 1
 //                    }, completion: nil)
-                })).disposed(by: disposeBag)
+//                })).disposed(by: disposeBag)
         }
         
         viewModel?
@@ -74,7 +78,7 @@ class CharactersViewController: UIViewController {
         let offsetY = scrollView.contentOffset.y
         let contentHeight = scrollView.contentSize.height
         
-        if offsetY + 600 > contentHeight - scrollView.frame.size.height {
+        if offsetY + .offset > contentHeight - scrollView.frame.size.height {
             viewModel?.getCharacters()
                 .bind(to: rx.state)
                 .disposed(by: disposeBag)
@@ -108,6 +112,20 @@ extension CharactersViewController: UICollectionViewDelegate {
     }
 }
 
+// MARK: - Search Bar delegate
+
+extension CharactersViewController: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {        
+        viewModel?.getCharacters(startingWith: searchBar.text, startFromBeginning: true)
+            .bind(to: rx.state)
+            .disposed(by: disposeBag)
+    }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.resignFirstResponder()
+    }
+}
+
 // MARK: - RX Bindings
 
 extension Reactive where Base: CharactersViewController {
@@ -124,4 +142,8 @@ extension Reactive where Base: CharactersViewController {
             }
         }
     }
+}
+
+private extension CGFloat {
+    static let offset: CGFloat = 600
 }

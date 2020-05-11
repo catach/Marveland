@@ -21,7 +21,7 @@ enum CharactersViewState: Equatable {
 
 protocol CharactersViewModelType {
     init(service: CharactersServiceProtocol)
-    func getCharacters() -> Observable<CharactersViewState>
+    func getCharacters(startingWith text: String?, startFromBeginning: Bool) -> Observable<CharactersViewState>
 }
 
 class CharactersViewModel: CharactersViewModelType {
@@ -34,28 +34,48 @@ class CharactersViewModel: CharactersViewModelType {
         self.service = service
     }
     
-    func getCharacters() -> Observable<CharactersViewState> {
+    func getCharacters(startingWith text: String? = nil,
+                       startFromBeginning: Bool = false) -> Observable<CharactersViewState> {
+        var startFromBeginning = startFromBeginning
+        
+        if let text = text {
+            if text.count == 0 {
+                startFromBeginning = true
+            } else if text.count < 3 {
+                return Observable.empty()
+            }
+        }
+
+        if startFromBeginning {
+            offset = 0
+        }
+        
         let request = GetCharactersRequest(
             orderBy: .name,
             limit: .offsetIncrement,
-            offset: offset
+            offset: offset,
+            nameStartsWith: text == "" ? nil : text
         )
         offset += .offsetIncrement
-
+        
         return service.getCharacters(request: request)
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .map { model in
                 do {
-                    try self.characters.onNext(self.characters.value() + model.characters)
+                    if startFromBeginning {
+                        self.characters.onNext(model.characters)
+                    } else {
+                        try self.characters.onNext(self.characters.value() + model.characters)
+                    }
                 } catch {
                     print(error)
                 }
                 return .success
-            }
-            .catchError { error -> Observable<CharactersViewState> in
-                .error(error)
-            }
-            .startWith(.loading)
+        }
+        .catchError { error -> Observable<CharactersViewState> in
+            .error(error)
+        }
+        .startWith(.loading)
     }
 }
 

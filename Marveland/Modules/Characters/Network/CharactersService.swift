@@ -22,7 +22,6 @@ class CharactersService: CharactersServiceProtocol {
         
         return provider.rx
             .request(.getCharacters(request))
-            .filterSuccessfulStatusAndRedirectCodes()
             .mapObject(GetCharactersResponse.self)
             .map { CharactersModel(from: $0) }
             .asObservable()

@@ -10,7 +10,7 @@ import UIKit
 
 class CharactersView: UIView {
     
-    private var searchBar = UISearchBar()
+    private(set) var searchBar = UISearchBar()
     private(set) var collectionView: UICollectionView?
     
     // MARK: - Life cycle
@@ -41,6 +41,8 @@ class CharactersView: UIView {
     private func setupSearchBar() {
         searchBar.searchBarStyle = .minimal
         searchBar.isTranslucent = false
+        searchBar.returnKeyType = .default
+        searchBar.enablesReturnKeyAutomatically = false
     }
     
     private func setupCollectionView() {
