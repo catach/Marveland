@@ -17,24 +17,19 @@ class CharactersViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
     private var viewModel: CharactersViewModel?
-   
+    
     override func loadView() {
         view = containerView
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-
         let provider = MoyaProvider<CharactersTargetType>(plugins: [NetworkLoggerPlugin()])
         let service = CharactersService(provider: provider)
         
         self.viewModel = CharactersViewModel(service: service)
         
-        containerView.collectionView?.delegate = self
+        containerView.collectionView.delegate = self
         containerView.searchBar.delegate = self
         
         setupBindings()
@@ -44,30 +39,31 @@ class CharactersViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+    }
+    
     private func setupBindings() {
         
-        if let collectionView = containerView.collectionView {
-            collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: "CharacterCollectionViewCell")
-
-            characters.bind(to: collectionView.rx.items(
-                cellIdentifier: "CharacterCollectionViewCell",
-                cellType: CharacterCollectionViewCell.self)) { (_, char, cell) in
-                    cell.name.text = "\"" + (char.name ?? "") + "\""
-                    let url = URL(string: char.thumbnail ?? "")
-                    cell.thumbnail.kf.setImage(with: url)
-            }.disposed(by: disposeBag)
-            
-            collectionView.rx.modelSelected(CharacterModel.self)
-                .subscribe(onNext: { item in
-                    guard let charId = item.charId else { return }
-                    let event = AppCoordinatorEvent.showDetail(charId: charId)
-                    do {
-                        try self.parentCoordinator?.handle(event: event)
-                    } catch {
-                        fatalError("Cant't open \(event)")
-                    }
+        containerView.collectionView.register(CharacterCollectionViewCell.self, forCellWithReuseIdentifier: "CharacterCollectionViewCell")
+        
+        characters.bind(to: containerView.collectionView.rx.items(
+            cellIdentifier: "CharacterCollectionViewCell",
+            cellType: CharacterCollectionViewCell.self)) { (_, char, cell) in
+                cell.name.text = "\"" + (char.name ?? "") + "\""
+                let url = URL(string: char.imagePortrait ?? "")
+                cell.thumbnail.kf.setImage(with: url)
+        }.disposed(by: disposeBag)
+        
+        containerView.collectionView.rx.modelSelected(CharacterModel.self)
+            .subscribe(onNext: { model in
+                let event = AppCoordinatorEvent.showDetail(model: model)
+                do {
+                    try self.parentCoordinator?.handle(event: event)
+                } catch {
+                    fatalError("Cant't open \(event)")
+                }
             }).disposed(by: disposeBag)
-        }
         
         viewModel?
             .characters
@@ -93,17 +89,17 @@ class CharactersViewController: UIViewController {
 extension CharactersViewController: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let cellsInRow = 2
-
+        
         guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else {
             return CGSize.zero
         }
-
+        
         let totalSpace = flowLayout.sectionInset.left
             + flowLayout.sectionInset.right
             + (flowLayout.minimumInteritemSpacing * CGFloat(cellsInRow - 1))
-
+        
         let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(cellsInRow))
-
+        
         return CGSize(width: size, height: Int(Double(size) * 1.68))
     }
 }
@@ -111,7 +107,7 @@ extension CharactersViewController: UICollectionViewDelegateFlowLayout {
 // MARK: - Search Bar delegate
 
 extension CharactersViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {        
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         viewModel?.getCharacters(startingWith: searchBar.text, startFromBeginning: true)
             .bind(to: rx.state)
             .disposed(by: disposeBag)
@@ -125,7 +121,7 @@ extension CharactersViewController: UISearchBarDelegate {
 // MARK: - RX Bindings
 
 extension Reactive where Base: CharactersViewController {
-
+    
     var state: Binder<CharactersViewState> {
         return Binder(base) { _, state in
             switch state {

@@ -11,7 +11,7 @@ import UIKit
 class CharactersView: UIView {
     
     private(set) var searchBar = UISearchBar()
-    private(set) var collectionView: UICollectionView?
+    private(set) lazy var collectionView = buildCollectionView()
     
     // MARK: - Life cycle
     
@@ -23,9 +23,23 @@ class CharactersView: UIView {
         super.didMoveToSuperview()
         setupView()
         setupSearchBar()
-        setupCollectionView()
         addSubviews()
         setupConstraints()
+    }
+    
+    private func buildCollectionView() -> UICollectionView {
+        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(
+            top: .cellInset,
+            left: .cellInset,
+            bottom: 0,
+            right: .cellInset
+        )
+        layout.minimumInteritemSpacing = .cellInset
+
+        let collectionView = UICollectionView(frame: self.frame, collectionViewLayout: layout)
+        collectionView.backgroundColor = .white
+        return collectionView
     }
     
     // MARK: - View setup
@@ -45,23 +59,9 @@ class CharactersView: UIView {
         searchBar.enablesReturnKeyAutomatically = false
         searchBar.placeholder = "Type character name"
     }
-    
-    private func setupCollectionView() {
-        let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        layout.sectionInset = UIEdgeInsets(
-            top: .cellInset,
-            left: .cellInset,
-            bottom: 0,
-            right: .cellInset
-        )
-        layout.minimumInteritemSpacing = .cellInset
-
-        collectionView = UICollectionView(frame: self.frame, collectionViewLayout: layout)
-        collectionView?.backgroundColor = .white
-    }
-    
+        
     private func addSubviews() {
-        let subviews = [searchBar, collectionView ?? UICollectionView()]
+        let subviews = [searchBar, collectionView]
         subviews.forEach(addSubview)
     }
 
@@ -72,7 +72,7 @@ class CharactersView: UIView {
             make.height.equalTo(CGFloat.searchBarHeight)
         }
         
-        collectionView?.snp.makeConstraints { (make) in
+        collectionView.snp.makeConstraints { (make) in
             make.top.equalTo(self.searchBar.snp.bottom)
             make.width.bottom.equalToSuperview()
         }

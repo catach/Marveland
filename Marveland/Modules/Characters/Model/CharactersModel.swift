@@ -9,21 +9,27 @@
 struct CharacterModel {
     var charId: String?
     var name: String?
-    var thumbnail: String?
+    var imagePortrait: String?
+    var imageLandscape: String?
+    var description: String
+    var comicsAppearances: Int
+    var comicsName: [String]
 }
 
 struct CharactersModel {
     var characters: [CharacterModel] = []
     
     init(from response: GetCharactersResponse) {
-        var thumb: String?
+        var imagePortrait: String?
+        var imageLandscape: String?
         
         for character in response.characters {
             var charIdString: String?
             
             if let path = character.thumbnail?.path,
                 let type = character.thumbnail?.type {
-                thumb = path + "/portrait_incredible." + type
+                imagePortrait = path + "/portrait_incredible." + type
+                imageLandscape = path + "." + type
             }
             
             if let charId = character.charId {
@@ -33,7 +39,11 @@ struct CharactersModel {
             let char = CharacterModel(
                 charId: charIdString,
                 name: character.name,
-                thumbnail: thumb
+                imagePortrait: imagePortrait,
+                imageLandscape: imageLandscape,
+                description: character.description,
+                comicsAppearances: character.comicsAppearances,
+                comicsName: character.comics.compactMap { $0.name }
             )
             
             characters.append(char)

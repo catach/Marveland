@@ -8,6 +8,19 @@
 
 import ObjectMapper
 
+// MARK: - Comic
+struct Comic {
+    var resourceURI: String?
+    var name: String?
+}
+
+extension Comic: ImmutableMappable {
+    init(map: Map) throws {
+        resourceURI = try map.value("resourceURI")
+        name = try map.value("name")
+    }
+}
+
 // MARK: - CharacterThumbnail
 struct CharacterThumbnail {
     var path: String?
@@ -28,7 +41,7 @@ struct CharacterResponse {
     var thumbnail: CharacterThumbnail?
     var description: String
     var comicsAppearances: Int
-    var comicsNames: [String]
+    var comics: [Comic]
 }
 
 extension CharacterResponse: ImmutableMappable {
@@ -36,6 +49,9 @@ extension CharacterResponse: ImmutableMappable {
         charId = try map.value("id")
         name = try map.value("name")
         thumbnail = try map.value("thumbnail")
+        description = try map.value("description")
+        comicsAppearances = try map.value("comics.available")
+        comics = try map.value("comics.items")
     }
 }
 

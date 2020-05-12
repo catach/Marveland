@@ -10,7 +10,8 @@ import UIKit
 
 enum AppCoordinatorEvent: AppEvent {
     case openHome
-    case showDetail(charId: String)
+    case showDetail(model: CharacterModel)
+    case backHome
 }
 
 class AppCoordinator: Coordinator {
@@ -39,9 +40,14 @@ class AppCoordinator: Coordinator {
             case .openHome:
                 self?.setupTabBar()
                 self?.startChild(coordinator: HomeCoordinator(rootViewController: self?.rootViewController))
-            case .showDetail(let charId):
+            case .showDetail(let model):
                 let navController = self?.rootViewController as? UINavigationController
-                navController?.pushViewController(DetailViewController(for: charId), animated: true)
+                let controller = DetailViewController(model: model)
+                controller.parentCoordinator = self
+                navController?.pushViewController(controller, animated: true)
+            case .backHome:
+                let navController = self?.rootViewController as? UINavigationController
+                navController?.popViewController(animated: true)
             }
         }
     }
