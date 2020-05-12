@@ -23,12 +23,17 @@ extension CharacterThumbnail: ImmutableMappable {
 
 // MARK: - Character
 struct CharacterResponse {
+    var charId: Int?
     var name: String?
     var thumbnail: CharacterThumbnail?
+    var description: String
+    var comicsAppearances: Int
+    var comicsNames: [String]
 }
 
 extension CharacterResponse: ImmutableMappable {
     init(map: Map) throws {
+        charId = try map.value("id")
         name = try map.value("name")
         thumbnail = try map.value("thumbnail")
     }

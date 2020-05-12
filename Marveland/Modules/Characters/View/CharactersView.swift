@@ -43,6 +43,7 @@ class CharactersView: UIView {
         searchBar.isTranslucent = false
         searchBar.returnKeyType = .default
         searchBar.enablesReturnKeyAutomatically = false
+        searchBar.placeholder = "Type character name"
     }
     
     private func setupCollectionView() {

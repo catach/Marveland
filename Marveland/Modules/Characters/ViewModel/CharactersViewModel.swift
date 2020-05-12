@@ -9,11 +9,11 @@
 import RxSwift
 import Foundation
 
-enum CharactersErrorState: Equatable {
+enum CharactersErrorState {
     case unknown
 }
 
-enum CharactersViewState: Equatable {
+enum CharactersViewState {
     case success
     case loading
     case error

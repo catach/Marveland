@@ -15,25 +15,28 @@ enum HomeCoordinatorEvent: AppEvent {
 
 class HomeCoordinator: Coordinator {
     
-    private var homeViewController: UITabBarController?
+    private var homeNavigationViewController: UINavigationController?
+    private var homeTabViewController: UITabBarController?
     
     override init(rootViewController: UIViewController?) {
         super.init(rootViewController: rootViewController)
-        homeViewController = rootViewController as? UITabBarController
+        homeNavigationViewController = rootViewController as? UINavigationController
+        homeTabViewController = homeNavigationViewController?.topViewController as? UITabBarController
     }
      
     override func start(with completion: @escaping () -> Void = {}) {
         setupEvents()
         
         let charactersViewController = CharactersViewController()
-        charactersViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .search, tag: 0)
-
+        charactersViewController.parentCoordinator = self
+        charactersViewController.tabBarItem = UITabBarItem(title: "Characters", image: UIImage(named: "charIcon"), tag: 0)
         let favoritesViewController = FavoritesViewController()
-        favoritesViewController.tabBarItem = UITabBarItem(tabBarSystemItem: .more, tag: 1)
+        favoritesViewController.parentCoordinator = self
+        favoritesViewController.tabBarItem = UITabBarItem(title: "Favorites", image: UIImage(named: "favIcon"), tag: 1)
 
         let tabBarList = [charactersViewController, favoritesViewController]
 
-        homeViewController?.viewControllers = tabBarList
+        homeTabViewController?.viewControllers = tabBarList
         
         do {
             try self.handle(event: HomeCoordinatorEvent.openCharacters)
@@ -49,9 +52,9 @@ class HomeCoordinator: Coordinator {
         add(eventType: HomeCoordinatorEvent.self) { [weak self] event in
             switch event {
             case .openCharacters:
-                self?.homeViewController?.selectedIndex = 0
+                self?.homeTabViewController?.selectedIndex = 0
             case .openFavorites:
-                self?.homeViewController?.selectedIndex = 1
+                self?.homeTabViewController?.selectedIndex = 1
             }
         }
     }

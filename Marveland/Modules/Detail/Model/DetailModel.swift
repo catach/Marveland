@@ -6,4 +6,16 @@
 //  Copyright © 2020 Marcelo Catach. All rights reserved.
 //
 
-import Foundation
+struct DetailModel {
+    var charId: String?
+    
+    init(from response: DetailResponse) {
+        var charIdString: String?
+                
+        if let charId = response.charId {
+            charIdString = String(charId)
+        }
+    
+        charId = charIdString
+    }
+}

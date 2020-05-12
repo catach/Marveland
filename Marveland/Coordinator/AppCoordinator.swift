@@ -10,6 +10,7 @@ import UIKit
 
 enum AppCoordinatorEvent: AppEvent {
     case openHome
+    case showDetail(charId: String)
 }
 
 class AppCoordinator: Coordinator {
@@ -38,13 +39,19 @@ class AppCoordinator: Coordinator {
             case .openHome:
                 self?.setupTabBar()
                 self?.startChild(coordinator: HomeCoordinator(rootViewController: self?.rootViewController))
+            case .showDetail(let charId):
+                let navController = self?.rootViewController as? UINavigationController
+                navController?.pushViewController(DetailViewController(for: charId), animated: true)
             }
         }
     }
 
     private func setupTabBar() {
         let tabBarController = UITabBarController()
-        self.rootViewController = tabBarController
+        let navController = UINavigationController(rootViewController: tabBarController)
+        navController.navigationBar.isHidden = true
+        self.rootViewController = navController
+        self.rootViewController?.parentCoordinator = self
         self.window?.rootViewController = self.rootViewController
     }
 }

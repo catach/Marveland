@@ -15,7 +15,7 @@ import Kingfisher
 class CharactersViewController: UIViewController {
     private let containerView = CharactersView()
     private let disposeBag = DisposeBag()
-    private var characters: PublishSubject<[CharacterModel]> = PublishSubject()
+    private var characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
     private var viewModel: CharactersViewModel?
    
     override func loadView() {
@@ -56,15 +56,17 @@ class CharactersViewController: UIViewController {
                     let url = URL(string: char.thumbnail ?? "")
                     cell.thumbnail.kf.setImage(with: url)
             }.disposed(by: disposeBag)
-
-            //TODO: remove
-//            collectionView.rx.willDisplayCell
-//                .subscribe(onNext: ({ (cell, _) in
-//                    cell.alpha = 0
-//                    UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 0.7, initialSpringVelocity: 0.5, options: .curveEaseOut, animations: {
-//                        cell.alpha = 1
-//                    }, completion: nil)
-//                })).disposed(by: disposeBag)
+            
+            collectionView.rx.modelSelected(CharacterModel.self)
+                .subscribe(onNext: { item in
+                    guard let charId = item.charId else { return }
+                    let event = AppCoordinatorEvent.showDetail(charId: charId)
+                    do {
+                        try self.parentCoordinator?.handle(event: event)
+                    } catch {
+                        fatalError("Cant't open \(event)")
+                    }
+            }).disposed(by: disposeBag)
         }
         
         viewModel?
@@ -103,12 +105,6 @@ extension CharactersViewController: UICollectionViewDelegateFlowLayout {
         let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(cellsInRow))
 
         return CGSize(width: size, height: Int(Double(size) * 1.68))
-    }
-}
-
-extension CharactersViewController: UICollectionViewDelegate {
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-       print("User tapped on item \(indexPath.row)")
     }
 }
 
