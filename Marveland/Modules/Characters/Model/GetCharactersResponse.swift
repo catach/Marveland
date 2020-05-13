@@ -39,7 +39,7 @@ struct CharacterResponse {
     var charId: Int?
     var name: String?
     var thumbnail: CharacterThumbnail?
-    var description: String
+    var bio: String
     var comicsAppearances: Int
     var comics: [Comic]
 }
@@ -49,7 +49,7 @@ extension CharacterResponse: ImmutableMappable {
         charId = try map.value("id")
         name = try map.value("name")
         thumbnail = try map.value("thumbnail")
-        description = try map.value("description")
+        bio = try map.value("description")
         comicsAppearances = try map.value("comics.available")
         comics = try map.value("comics.items")
     }

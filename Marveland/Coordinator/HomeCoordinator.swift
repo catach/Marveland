@@ -8,11 +8,6 @@
 
 import UIKit
 
-enum HomeCoordinatorEvent: AppEvent {
-    case openCharacters
-    case openFavorites
-}
-
 class HomeCoordinator: Coordinator {
     
     private var homeNavigationViewController: UINavigationController?
@@ -25,7 +20,6 @@ class HomeCoordinator: Coordinator {
     }
      
     override func start(with completion: @escaping () -> Void = {}) {
-        setupEvents()
         
         let charactersViewController = CharactersViewController()
         charactersViewController.parentCoordinator = self
@@ -37,25 +31,8 @@ class HomeCoordinator: Coordinator {
         let tabBarList = [charactersViewController, favoritesViewController]
 
         homeTabViewController?.viewControllers = tabBarList
+        homeTabViewController?.selectedIndex = 0
         
-        do {
-            try self.handle(event: HomeCoordinatorEvent.openCharacters)
-        } catch {
-            if case let AppEventError.eventNotHandled(event) = error {
-                fatalError("event not handled: [\(String(reflecting: type(of: event)))]")
-            }
-        }
         super.start(with: completion)
-    }
-
-    private func setupEvents() {
-        add(eventType: HomeCoordinatorEvent.self) { [weak self] event in
-            switch event {
-            case .openCharacters:
-                self?.homeTabViewController?.selectedIndex = 0
-            case .openFavorites:
-                self?.homeTabViewController?.selectedIndex = 1
-            }
-        }
     }
 }

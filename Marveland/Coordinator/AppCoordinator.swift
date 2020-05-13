@@ -10,7 +10,7 @@ import UIKit
 
 enum AppCoordinatorEvent: AppEvent {
     case openHome
-    case showDetail(model: CharacterModel)
+    case showDetail(model: CharacterModel, viewModel: CharactersViewModel?)
     case backHome
 }
 
@@ -40,11 +40,12 @@ class AppCoordinator: Coordinator {
             case .openHome:
                 self?.setupTabBar()
                 self?.startChild(coordinator: HomeCoordinator(rootViewController: self?.rootViewController))
-            case .showDetail(let model):
+            case .showDetail(let model, let viewModel):
                 let navController = self?.rootViewController as? UINavigationController
-                let controller = DetailViewController(model: model)
+                let controller = DetailViewController(model: model, viewModel: viewModel)
                 controller.parentCoordinator = self
                 navController?.pushViewController(controller, animated: true)
+                
             case .backHome:
                 let navController = self?.rootViewController as? UINavigationController
                 navController?.popViewController(animated: true)

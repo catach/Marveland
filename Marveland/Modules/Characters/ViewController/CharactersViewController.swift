@@ -39,8 +39,12 @@ class CharactersViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    private func handleFavorite(_ char: CharacterModel, _ cell: CharacterCollectionViewCell) {
+        if let favOn = self.viewModel?.toggleFavorite(char), favOn == true {
+            cell.favorite.setImage(UIImage(named: "onFav"), for: .normal)
+        } else {
+            cell.favorite.setImage(UIImage(named: "offFav"), for: .normal)
+        }
     }
     
     private func setupBindings() {
@@ -50,21 +54,30 @@ class CharactersViewController: UIViewController {
         characters.bind(to: containerView.collectionView.rx.items(
             cellIdentifier: "CharacterCollectionViewCell",
             cellType: CharacterCollectionViewCell.self)) { (_, char, cell) in
+                
+                cell.favoriteTap
+                    .subscribe(onNext: { [weak self] _ in
+                        self?.handleFavorite(char, cell)
+                }).disposed(by: cell.disposeBag)
+                
                 cell.name.text = "\"" + (char.name ?? "") + "\""
                 let url = URL(string: char.imagePortrait ?? "")
                 cell.thumbnail.kf.setImage(with: url)
+                let image = char.favorite ? UIImage(named: "onFav") : UIImage(named: "offFav")
+                cell.favorite.setImage(image, for: .normal)
+
         }.disposed(by: disposeBag)
         
         containerView.collectionView.rx.modelSelected(CharacterModel.self)
             .subscribe(onNext: { model in
-                let event = AppCoordinatorEvent.showDetail(model: model)
+                let event = AppCoordinatorEvent.showDetail(model: model, viewModel: self.viewModel)
                 do {
                     try self.parentCoordinator?.handle(event: event)
                 } catch {
                     fatalError("Cant't open \(event)")
                 }
             }).disposed(by: disposeBag)
-        
+          
         viewModel?
             .characters
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))

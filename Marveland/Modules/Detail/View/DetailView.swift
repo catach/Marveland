@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import RxSwift
 
 class DetailView: UIView {
     
     var title = UILabel()
     let backButton = UIButton()
+    lazy var favorite = buildFavorite()
     private(set) var navigation = UIView()
     private(set) var image = UIImageView()
     private(set) var comics = UITextView()
@@ -25,7 +27,7 @@ class DetailView: UIView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+        
     // MARK: - Life cycle
     
     override func layoutSubviews() {
@@ -37,6 +39,7 @@ class DetailView: UIView {
         setupView()
         setupNavigation()
         setupComics()
+        setupImage()
         setupBio()
         setupStack()
         addSubviews()
@@ -44,17 +47,27 @@ class DetailView: UIView {
     }
     
     // MARK: - View setup
+    
+    private func buildFavorite() -> UIButton {
+        let view = UIButton()
+        view.backgroundColor = UIColor.init(red: 251/255, green: 244/255, blue: 75/255, alpha: 1)
+        view.layer.borderColor = CGColor.init(srgbRed: 0, green: 0, blue: 0, alpha: 1)
+        view.layer.borderWidth = 2
+        view.setImage(UIImage(named: "offFav"), for: .normal)
+        return view
+    }
         
     private func setupView() {
-        self.backgroundColor = .white
+        self.backgroundColor = .black
     }
     
     private func setupNavigation() {
         backButton.setTitle("<", for: .normal)
-        backButton.setTitleColor(.black, for: .normal)
+        backButton.setTitleColor(.white, for: .normal)
         backButton.titleLabel?.font = .boldSystemFont(ofSize: 28)
         
         title.font = .boldSystemFont(ofSize: 24)
+        title.textColor = .white
         
         self.navigation.addSubview(backButton)
         self.navigation.addSubview(title)
@@ -72,11 +85,13 @@ class DetailView: UIView {
     }
     
     private func setupImage() {
-        image.backgroundColor = .white
-        image.layer.borderColor = CGColor.init(srgbRed: 1, green: 0, blue: 0, alpha: 1)
+        image.backgroundColor = .black
+        image.layer.borderColor = CGColor.init(srgbRed: 1, green: 1, blue: 1, alpha: 1)
         image.layer.borderWidth = 5
         image.clipsToBounds = true
         image.contentMode = .scaleAspectFit
+        
+        image.addSubview(favorite)
     }
     
     private func setupComics() {
@@ -113,11 +128,11 @@ class DetailView: UIView {
     }
 
     private func setupConstraints() {
-        self.snp.makeConstraints { make in
+        self.snp.makeConstraints { (make) in
             make.top.width.bottom.height.equalToSuperview()
         }
         
-        navigation.snp.makeConstraints { make in
+        navigation.snp.makeConstraints { (make) in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.height.equalTo(60)
             make.leading.trailing.equalToSuperview()
@@ -129,7 +144,13 @@ class DetailView: UIView {
             make.height.equalTo(CGFloat.imageHeight)
         }
         
-        bio.snp.makeConstraints { make in
+        favorite.snp.makeConstraints { (make) in
+            make.top.left.equalToSuperview().inset(7)
+            make.width.equalTo(44)
+            make.height.equalTo(44)
+        }
+        
+        bio.snp.makeConstraints { (make) in
             make.height.equalTo(200)
         }
         

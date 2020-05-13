@@ -9,9 +9,8 @@
 import UIKit
 
 class FavoritesView: UIView {
-    
-    private var searchBar = UISearchBar()
-    
+    private(set) lazy var collectionView = buildCollectionView()
+        
     // MARK: - Life cycle
     
     override func layoutSubviews() {
@@ -20,25 +19,49 @@ class FavoritesView: UIView {
     
     override func didMoveToSuperview() {
         super.didMoveToSuperview()
+        setupView()
         addSubviews()
         setupConstraints()
     }
     
+    private func buildCollectionView() -> UICollectionView {
+           let layout: UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+           layout.sectionInset = UIEdgeInsets(
+               top: .cellInset,
+               left: .cellInset,
+               bottom: 0,
+               right: .cellInset
+           )
+           layout.minimumInteritemSpacing = .cellInset
+
+           let collectionView = UICollectionView(frame: self.frame, collectionViewLayout: layout)
+           collectionView.backgroundColor = .white
+           return collectionView
+       }
+       
     // MARK: - View setup
     
+    private func setupView() {
+        self.snp.makeConstraints { make in
+            make.top.width.bottom.height.equalToSuperview()
+        }
+        
+        self.backgroundColor = .white
+    }
+    
     private func addSubviews() {
-        let subviews = [searchBar]
+        let subviews = [collectionView]
         subviews.forEach(addSubview)
     }
 
     private func setupConstraints() {
-        searchBar.snp.makeConstraints { make in
-            make.top.width.equalToSuperview()
-            make.height.equalTo(CGFloat.searchBarHeight)
+        collectionView.snp.makeConstraints { (make) in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            make.width.bottom.equalToSuperview()
         }
     }
 }
 
 private extension CGFloat {
-    static let searchBarHeight = 40
+    static let cellInset: CGFloat = 10
 }

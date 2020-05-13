@@ -6,14 +6,21 @@
 //  Copyright © 2020 Marcelo Catach. All rights reserved.
 //
 
-struct CharacterModel {
-    var charId: String?
-    var name: String?
-    var imagePortrait: String?
-    var imageLandscape: String?
-    var description: String
-    var comicsAppearances: Int
-    var comicsName: [String]
+import RealmSwift
+
+class CharacterModel: Object {
+    @objc dynamic var charId = 0
+    @objc dynamic var name: String?
+    @objc dynamic var imagePortrait: String?
+    @objc dynamic var imageLandscape: String?
+    @objc dynamic var bio = ""
+    @objc dynamic var comicsAppearances = 0
+    @objc dynamic var favorite = false
+    var comicsName = List<String>()
+    
+    override static func primaryKey() -> String? {
+        return "charId"
+    }
 }
 
 struct CharactersModel {
@@ -24,27 +31,24 @@ struct CharactersModel {
         var imageLandscape: String?
         
         for character in response.characters {
-            var charIdString: String?
-            
             if let path = character.thumbnail?.path,
                 let type = character.thumbnail?.type {
                 imagePortrait = path + "/portrait_incredible." + type
                 imageLandscape = path + "." + type
             }
             
-            if let charId = character.charId {
-                charIdString = String(charId)
+            let char = CharacterModel()
+            char.charId = character.charId ?? 0
+            char.name = character.name
+            char.imagePortrait = imagePortrait
+            char.imageLandscape = imageLandscape
+            char.bio = character.bio
+            char.comicsAppearances = character.comicsAppearances
+            _ = character.comics.compactMap {
+                if let name = $0.name {
+                    char.comicsName.append(name)
+                }
             }
-            
-            let char = CharacterModel(
-                charId: charIdString,
-                name: character.name,
-                imagePortrait: imagePortrait,
-                imageLandscape: imageLandscape,
-                description: character.description,
-                comicsAppearances: character.comicsAppearances,
-                comicsName: character.comics.compactMap { $0.name }
-            )
             
             characters.append(char)
         }

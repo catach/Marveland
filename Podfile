@@ -11,6 +11,7 @@ target 'Marveland' do
   pod 'RxCocoa'
   pod 'Moya-ObjectMapper/RxSwift'
   pod 'Kingfisher'
+  pod 'RealmSwift'
 
   target 'MarvelandTests' do
     inherit! :search_paths

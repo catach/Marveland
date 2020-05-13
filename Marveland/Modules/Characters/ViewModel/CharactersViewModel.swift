@@ -8,6 +8,7 @@
 
 import RxSwift
 import Foundation
+import RealmSwift
 
 enum CharactersErrorState {
     case unknown
@@ -22,6 +23,7 @@ enum CharactersViewState {
 protocol CharactersViewModelType {
     init(service: CharactersServiceProtocol)
     func getCharacters(startingWith text: String?, startFromBeginning: Bool) -> Observable<CharactersViewState>
+    func toggleFavorite(_ model: CharacterModel?) -> Bool
 }
 
 class CharactersViewModel: CharactersViewModelType {
@@ -32,6 +34,27 @@ class CharactersViewModel: CharactersViewModelType {
     
     required init(service: CharactersServiceProtocol) {
         self.service = service
+    }
+    
+    func toggleFavorite(_ model: CharacterModel?) -> Bool {
+        guard let realm = try? Realm() else { return false }
+            
+        guard let model = model else { return false }
+                
+        let character = realm.object(ofType: CharacterModel.self, forPrimaryKey: model.charId)
+        
+        if character == nil {
+            try? realm.write {
+                model.favorite = true
+                realm.add(model, update: .all)
+            }
+            return true
+        } else {
+            try? realm.write {
+                model.favorite = !model.favorite
+            }
+            return model.favorite
+        }
     }
     
     func getCharacters(startingWith text: String? = nil,

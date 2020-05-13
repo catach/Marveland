@@ -16,10 +16,12 @@ class DetailViewController: UIViewController {
     private var containerView = DetailView()
     private let disposeBag = DisposeBag()
     private var model: CharacterModel?
+    private var viewModel: CharactersViewModel?
     
-    init(model: CharacterModel) {
+    init(model: CharacterModel, viewModel: CharactersViewModel?) {
         super.init(nibName: nil, bundle: nil)
         self.model = model
+        self.viewModel = viewModel
     }
     
     override func loadView() {
@@ -46,8 +48,8 @@ class DetailViewController: UIViewController {
         containerView.title.text = model?.name ?? ""
         
         containerView.bio.text = "N/A"
-        if let description = model?.description {
-            containerView.bio.text = description.isEmpty ? "Bio N/A" : "\"\(description)\""
+        if let bio = model?.bio {
+            containerView.bio.text = bio.isEmpty ? "Bio N/A" : "\"\(bio)\""
         }
         
         let allComics = model?.comicsName.joined(separator: "\n") ?? "N/A"
@@ -58,11 +60,20 @@ class DetailViewController: UIViewController {
             containerView.comics.text = "Appears on Comics like: \n\(allComics)"
         }
         
+        if let favorite = model?.favorite, favorite == true {
+            containerView.favorite.setImage(UIImage(named: "onFav"), for: .normal)
+        } else {
+            containerView.favorite.setImage(UIImage(named: "offFav"), for: .normal)
+        }
     }
     
     private func setupBindings() {
         containerView.backButton.rx.tap
             .bind(to: rx.backButton)
+            .disposed(by: disposeBag)
+        
+        containerView.favorite.rx.tap
+            .bind(to: rx.favoriteTap)
             .disposed(by: disposeBag)
     }
     
@@ -72,7 +83,14 @@ class DetailViewController: UIViewController {
         } catch {
             fatalError("Can't handle event \(error)")
         }
-        
+    }
+    
+    internal func favoriteTap() {
+        if let favOn = self.viewModel?.toggleFavorite(self.model), favOn == true {
+            containerView.favorite.setImage(UIImage(named: "onFav"), for: .normal)
+        } else {
+            containerView.favorite.setImage(UIImage(named: "offFav"), for: .normal)
+        }
     }
 }
 
@@ -83,6 +101,12 @@ extension Reactive where Base: DetailViewController {
     var backButton: Binder<()> {
         return Binder(base) { controller, _ in
             controller.back()
+        }
+    }
+    
+    var favoriteTap: Binder<()> {
+        return Binder(base) { controller, _ in
+            controller.favoriteTap()
         }
     }
 }
