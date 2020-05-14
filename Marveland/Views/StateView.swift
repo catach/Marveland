@@ -58,9 +58,9 @@ class StateView: UIView {
     
     private func setupImage() {
         image.isUserInteractionEnabled = true
-        image.backgroundColor = .black
+        image.backgroundColor = .white
         image.clipsToBounds = true
-        image.contentMode = .scaleAspectFill
+        image.contentMode = .scaleAspectFit
         switch state {
         case .empty:
             image.image = UIImage(named: "empty")

@@ -26,6 +26,7 @@ class CharactersViewModel: CharactersViewModelType {
     private let service: CharactersServiceProtocol
     private let favoriteManager = FavoriteManager()
     private var offset = 0
+    private var oldText = ""
     public let characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
     
     required init(service: CharactersServiceProtocol) {
@@ -34,19 +35,14 @@ class CharactersViewModel: CharactersViewModelType {
             
     func getCharacters(startingWith text: String? = nil,
                        startFromBeginning: Bool = false) -> Observable<CharactersViewState> {
-        var startFromBeginning = startFromBeginning
-        
         if let text = text {
-            if text.count == 0 {
-                startFromBeginning = true
-            } else if text.count < 3 {
-                return Observable.empty()
+            if startFromBeginning || (oldText != text) {
+                offset = 0
             }
+            oldText = text
         }
-
-        if startFromBeginning {
-            offset = 0
-        }
+        
+        print("OFFSET: \(offset)")
         
         let request = GetCharactersRequest(
             orderBy: .name,
@@ -54,7 +50,6 @@ class CharactersViewModel: CharactersViewModelType {
             offset: offset,
             nameStartsWith: text == "" ? nil : text
         )
-        offset += .offsetIncrement
         
         return service.getCharacters(request: request)
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
@@ -68,7 +63,8 @@ class CharactersViewModel: CharactersViewModelType {
                 } catch {
                     print(error)
                 }
-                return model.characters.isEmpty ? .success(true) : .success(false)
+                self.offset += model.characters.count
+                return try self.characters.value().isEmpty ? .success(true) : .success(false)
         }
         .catchErrorJustReturn(.error)
         .startWith(.loading)

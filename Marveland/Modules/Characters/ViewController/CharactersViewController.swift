@@ -99,7 +99,7 @@ class CharactersViewController: UIViewController {
         let contentHeight = scrollView.contentSize.height
         
         if offsetY + .offset > contentHeight - scrollView.frame.size.height {
-            viewModel?.getCharacters()
+            viewModel?.getCharacters(startingWith: containerView.searchBar.text)
                 .bind(to: rx.state)
                 .disposed(by: disposeBag)
         }

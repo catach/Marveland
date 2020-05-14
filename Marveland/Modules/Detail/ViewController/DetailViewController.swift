@@ -55,7 +55,11 @@ class DetailViewController: UIViewController {
         let allComics = model?.comicsName.joined(separator: "\n") ?? "N/A"
         
         if let comicsAppearances = model?.comicsAppearances {
-            containerView.comics.text = "Appears on \(comicsAppearances) Comics like: \n\(allComics)"
+            if comicsAppearances == 0 {
+                containerView.comics.text = "N/A"
+            } else {
+                containerView.comics.text = "Appears on \(comicsAppearances) Comics like: \n\(allComics)"
+            }
         } else {
             containerView.comics.text = "Appears on Comics like: \n\(allComics)"
         }

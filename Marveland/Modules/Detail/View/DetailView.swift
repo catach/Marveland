@@ -65,6 +65,9 @@ class DetailView: UIView {
         backButton.titleLabel?.font = .boldSystemFont(ofSize: 28)
         
         title.font = .boldSystemFont(ofSize: 24)
+        title.adjustsFontSizeToFitWidth = true
+        title.minimumScaleFactor = 0.5
+        title.textAlignment = .center
         title.textColor = .white
         
         self.navigation.addSubview(backButton)
@@ -123,19 +126,20 @@ class DetailView: UIView {
         }
         
         backButton.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(10)
+            make.top.equalToSuperview()
+            make.leading.equalToSuperview().inset(10)
             make.width.height.equalTo(44)
         }
         
         title.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(10)
+            make.centerX.top.equalToSuperview()
             make.height.equalTo(45)
+            make.left.equalTo(backButton.snp.right)
         }
         
         navigation.snp.makeConstraints { (make) in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
-            make.height.equalTo(60)
+            make.height.equalTo(45)
             make.leading.trailing.equalToSuperview()
         }
 
