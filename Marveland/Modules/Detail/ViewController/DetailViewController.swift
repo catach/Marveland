@@ -17,19 +17,19 @@ class DetailViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var model: CharacterModel?
     private var viewModel: CharactersViewModel?
+    private let favoritesManager = FavoriteManager()
     
-    init(model: CharacterModel, viewModel: CharactersViewModel?) {
+    init(model: CharacterModel) {
         super.init(nibName: nil, bundle: nil)
         self.model = model
-        self.viewModel = viewModel
-    }
-    
-    override func loadView() {
-        self.view = containerView
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func loadView() {
+        self.view = containerView
     }
         
     override func viewDidLoad() {
@@ -60,7 +60,7 @@ class DetailViewController: UIViewController {
             containerView.comics.text = "Appears on Comics like: \n\(allComics)"
         }
         
-        if let favorite = model?.favorite, favorite == true {
+        if favoritesManager.isFavorite(model?.charId ?? 0) {
             containerView.favorite.setImage(UIImage(named: "onFav"), for: .normal)
         } else {
             containerView.favorite.setImage(UIImage(named: "offFav"), for: .normal)
@@ -68,25 +68,25 @@ class DetailViewController: UIViewController {
     }
     
     private func setupBindings() {
-        containerView.backButton.rx.tap
-            .bind(to: rx.backButton)
-            .disposed(by: disposeBag)
-        
         containerView.favorite.rx.tap
             .bind(to: rx.favoriteTap)
+            .disposed(by: disposeBag)
+
+        containerView.backButton.rx.tap
+            .bind(to: rx.backButton)
             .disposed(by: disposeBag)
     }
     
     internal func back() {
         do {
-            try self.parentCoordinator?.handle(event: CharactersCoordinatorEvent.showCharacters)
+            try self.parentCoordinator?.handle(event: DetailCoordinatorEvent.dismiss)
         } catch {
             fatalError("Can't handle event \(error)")
         }
     }
     
     internal func favoriteTap() {
-        if let favOn = self.viewModel?.toggleFavorite(self.model), favOn == true {
+        if favoritesManager.toggleFavorite(self.model) == true {
             containerView.favorite.setImage(UIImage(named: "onFav"), for: .normal)
         } else {
             containerView.favorite.setImage(UIImage(named: "offFav"), for: .normal)

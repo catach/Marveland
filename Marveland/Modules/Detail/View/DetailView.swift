@@ -13,7 +13,7 @@ class DetailView: UIView {
     
     var title = UILabel()
     let backButton = UIButton()
-    lazy var favorite = buildFavorite()
+    let favorite = UIButton()
     private(set) var navigation = UIView()
     private(set) var image = UIImageView()
     private(set) var comics = UITextView()
@@ -38,6 +38,7 @@ class DetailView: UIView {
         if self.superview == nil { return }
         setupView()
         setupNavigation()
+        setupFavorite()
         setupComics()
         setupImage()
         setupBio()
@@ -48,13 +49,10 @@ class DetailView: UIView {
     
     // MARK: - View setup
     
-    private func buildFavorite() -> UIButton {
-        let view = UIButton()
-        view.backgroundColor = UIColor.init(red: 251/255, green: 244/255, blue: 75/255, alpha: 1)
-        view.layer.borderColor = CGColor.init(srgbRed: 0, green: 0, blue: 0, alpha: 1)
-        view.layer.borderWidth = 2
-        view.setImage(UIImage(named: "offFav"), for: .normal)
-        return view
+    private func setupFavorite() {
+        favorite.backgroundColor = UIColor.init(red: 251/255, green: 244/255, blue: 75/255, alpha: 1)
+        favorite.layer.borderColor = CGColor.init(srgbRed: 0, green: 0, blue: 0, alpha: 1)
+        favorite.layer.borderWidth = 2
     }
         
     private func setupView() {
@@ -71,20 +69,10 @@ class DetailView: UIView {
         
         self.navigation.addSubview(backButton)
         self.navigation.addSubview(title)
-        
-        backButton.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(10)
-            make.width.height.equalTo(45)
-        }
-        
-        title.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.top.equalTo(10)
-            make.height.equalTo(45)
-        }
     }
     
     private func setupImage() {
+        image.isUserInteractionEnabled = true
         image.backgroundColor = .black
         image.layer.borderColor = CGColor.init(srgbRed: 1, green: 1, blue: 1, alpha: 1)
         image.layer.borderWidth = 5
@@ -95,6 +83,7 @@ class DetailView: UIView {
     }
     
     private func setupComics() {
+        comics.isEditable = false
         comics.backgroundColor = .darkGray
         comics.textColor = .white
         comics.font = .systemFont(ofSize: 16)
@@ -103,6 +92,7 @@ class DetailView: UIView {
     }
 
     private func setupBio() {
+        bio.isEditable = false
         bio.backgroundColor = .yellow
         bio.textColor = .black
         bio.layer.borderColor = CGColor.init(srgbRed: 0, green: 0, blue: 0, alpha: 1)
@@ -130,6 +120,17 @@ class DetailView: UIView {
     private func setupConstraints() {
         self.snp.makeConstraints { (make) in
             make.top.width.bottom.height.equalToSuperview()
+        }
+        
+        backButton.snp.makeConstraints { make in
+            make.top.leading.equalToSuperview().inset(10)
+            make.width.height.equalTo(44)
+        }
+        
+        title.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.top.equalTo(10)
+            make.height.equalTo(45)
         }
         
         navigation.snp.makeConstraints { (make) in

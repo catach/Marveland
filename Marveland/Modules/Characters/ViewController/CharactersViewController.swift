@@ -17,6 +17,7 @@ class CharactersViewController: UIViewController {
     private let disposeBag = DisposeBag()
     private var characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
     private var viewModel: CharactersViewModel?
+    private let favoriteManager = FavoriteManager()
     
     override func loadView() {
         view = containerView
@@ -40,11 +41,12 @@ class CharactersViewController: UIViewController {
     }
     
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
         containerView.collectionView.reloadData()
     }
     
     private func handleFavorite(_ char: CharacterModel, _ cell: CharacterCollectionViewCell) {
-        if let favOn = self.viewModel?.toggleFavorite(char), favOn == true {
+        if favoriteManager.toggleFavorite(char) == true {
             cell.favorite.setImage(UIImage(named: "onFav"), for: .normal)
         } else {
             cell.favorite.setImage(UIImage(named: "offFav"), for: .normal)
@@ -67,14 +69,14 @@ class CharactersViewController: UIViewController {
                 cell.name.text = "\"" + (char.name ?? "") + "\""
                 let url = URL(string: char.imagePortrait ?? "")
                 cell.thumbnail.kf.setImage(with: url)
-                let image = char.favorite ? UIImage(named: "onFav") : UIImage(named: "offFav")
+                let image = self.favoriteManager.isFavorite(char.charId) ? UIImage(named: "onFav") : UIImage(named: "offFav")
                 cell.favorite.setImage(image, for: .normal)
 
         }.disposed(by: disposeBag)
         
         containerView.collectionView.rx.modelSelected(CharacterModel.self)
             .subscribe(onNext: { model in
-                let event = CharactersCoordinatorEvent.showDetail(model: model, viewModel: self.viewModel)
+                let event = CharactersCoordinatorEvent.showDetail(model: model)
                 do {
                     try self.parentCoordinator?.handle(event: event)
                 } catch {

@@ -62,6 +62,16 @@ class FavoritesViewController: UIViewController {
                 cell.favorite.setImage(image, for: .normal)
                 
         }.disposed(by: disposeBag)
+        
+        containerView.collectionView.rx.modelSelected(CharacterModel.self)
+            .subscribe(onNext: { model in
+                let event = FavoritesCoordinatorEvent.showDetail(model: model)
+                do {
+                    try self.parentCoordinator?.handle(event: event)
+                } catch {
+                    fatalError("Cant't open \(event)")
+                }
+            }).disposed(by: disposeBag)
                 
         viewModel
             .characters

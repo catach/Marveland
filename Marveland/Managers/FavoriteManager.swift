@@ -30,17 +30,17 @@ class FavoriteManager {
                 
         let character = realm.object(ofType: CharacterModel.self, forPrimaryKey: model.charId)
         
-        if character == nil {
+        if let character = character {
+            try? realm.write {
+                character.favorite = !character.favorite
+            }
+            return character.favorite
+        } else {
             try? realm.write {
                 model.favorite = true
                 realm.add(model, update: .all)
             }
             return true
-        } else {
-            try? realm.write {
-                model.favorite = !model.favorite
-            }
-            return model.favorite
         }
     }
 }

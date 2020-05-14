@@ -54,6 +54,7 @@ class CharactersView: UIView {
         searchBar.returnKeyType = .default
         searchBar.enablesReturnKeyAutomatically = false
         searchBar.placeholder = "Type character name"
+        searchBar.searchTextField.textColor = .black
     }
         
     private func addSubviews() {

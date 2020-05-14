@@ -9,8 +9,7 @@
 import UIKit
 
 enum CharactersCoordinatorEvent: AppEvent {
-    case showDetail(model: CharacterModel, viewModel: CharactersViewModel?)
-    case showCharacters
+    case showDetail(model: CharacterModel)
 }
 
 class CharactersCoordinator: Coordinator {
@@ -40,15 +39,12 @@ class CharactersCoordinator: Coordinator {
     private func setupEvents() {
         self.add(eventType: CharactersCoordinatorEvent.self) { [weak self] event in
             switch event {
-            case .showDetail(let model, let viewModel):
-                let navController = self?.rootViewController as? UINavigationController
-                let controller = DetailViewController(model: model, viewModel: viewModel)
-                controller.parentCoordinator = self
-                navController?.pushViewController(controller, animated: true)
-                
-            case .showCharacters:
-                let navController = self?.rootViewController as? UINavigationController
-                navController?.popViewController(animated: true)
+            case .showDetail(let model):
+                let detailCoordinator = DetailCoordinator(
+                    self?.rootViewController,
+                    model
+                )
+                self?.startChild(coordinator: detailCoordinator)
             }
         }
     }

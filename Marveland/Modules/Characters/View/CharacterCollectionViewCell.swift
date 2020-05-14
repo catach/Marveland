@@ -25,6 +25,7 @@ class CharacterCollectionViewCell: UICollectionViewCell {
 
     let name: UITextView = {
         let view = UITextView()
+        view.isUserInteractionEnabled = false
         view.text = ""
         view.backgroundColor = UIColor.init(red: 251/255, green: 244/255, blue: 75/255, alpha: 1)
         view.textColor = .black

@@ -12,8 +12,6 @@
 		004FC74C2463A0BE00BBC4CB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 004FC74A2463A0BE00BBC4CB /* LaunchScreen.storyboard */; };
 		004FC7572463A0BF00BBC4CB /* MarvelandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004FC7562463A0BF00BBC4CB /* MarvelandTests.swift */; };
 		004FC7812463A37300BBC4CB /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004FC7802463A37300BBC4CB /* AppCoordinator.swift */; };
-		004FC7832463A3A900BBC4CB /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004FC7822463A3A900BBC4CB /* HomeViewController.swift */; };
-		004FC7852463A4BA00BBC4CB /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004FC7842463A4BA00BBC4CB /* HomeView.swift */; };
 		007BC54C2463A6DE00A1560B /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 007BC54B2463A6DE00A1560B /* Default-568h@2x.png */; };
 		007BC54E2463AAD300A1560B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007BC54D2463AAD300A1560B /* Coordinator.swift */; };
 		007BC5502463AAF000A1560B /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007BC54F2463AAF000A1560B /* CoordinatorProtocol.swift */; };
@@ -37,6 +35,7 @@
 		00F16DC1246C581300808759 /* FavoritesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F16DC0246C581300808759 /* FavoritesCoordinator.swift */; };
 		00F16DC3246C5EF500808759 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F16DC2246C5EF500808759 /* FavoritesViewModel.swift */; };
 		00F16DC7246C96D900808759 /* FavoriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F16DC6246C96D900808759 /* FavoriteManager.swift */; };
+		00F16DC9246CE22400808759 /* DetailCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F16DC8246CE22400808759 /* DetailCoordinator.swift */; };
 		17C6103F2279DA8D26DFBDA2 /* Pods_Marveland.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10E66A23CC47A93D32136F43 /* Pods_Marveland.framework */; };
 		71AD9C6209A612C7E551297E /* Pods_MarvelandTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D093B49EF95BD146E98A /* Pods_MarvelandTests.framework */; };
 /* End PBXBuildFile section */
@@ -61,8 +60,6 @@
 		004FC7562463A0BF00BBC4CB /* MarvelandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarvelandTests.swift; sourceTree = "<group>"; };
 		004FC7582463A0BF00BBC4CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		004FC7802463A37300BBC4CB /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
-		004FC7822463A3A900BBC4CB /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
-		004FC7842463A4BA00BBC4CB /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		007BC54B2463A6DE00A1560B /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		007BC54D2463AAD300A1560B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		007BC54F2463AAF000A1560B /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
@@ -86,6 +83,7 @@
 		00F16DC0246C581300808759 /* FavoritesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCoordinator.swift; sourceTree = "<group>"; };
 		00F16DC2246C5EF500808759 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
 		00F16DC6246C96D900808759 /* FavoriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteManager.swift; sourceTree = "<group>"; };
+		00F16DC8246CE22400808759 /* DetailCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailCoordinator.swift; sourceTree = "<group>"; };
 		0FB86F6013799210D5B9493C /* Pods-Marveland.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marveland.release.xcconfig"; path = "Target Support Files/Pods-Marveland/Pods-Marveland.release.xcconfig"; sourceTree = "<group>"; };
 		10E66A23CC47A93D32136F43 /* Pods_Marveland.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Marveland.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B3D62B90C07F5924DE1ED23 /* Pods-MarvelandTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarvelandTests.debug.xcconfig"; path = "Target Support Files/Pods-MarvelandTests/Pods-MarvelandTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -159,7 +157,6 @@
 		004FC7612463A23900BBC4CB /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				004FC7682463A2BF00BBC4CB /* Home */,
 				004FC7642463A26000BBC4CB /* Favorites */,
 				004FC7632463A25A00BBC4CB /* Detail */,
 				004FC7622463A24200BBC4CB /* Characters */,
@@ -228,18 +225,6 @@
 			path = ViewController;
 			sourceTree = "<group>";
 		};
-		004FC7682463A2BF00BBC4CB /* Home */ = {
-			isa = PBXGroup;
-			children = (
-				004FC76F2463A33F00BBC4CB /* Model */,
-				004FC7722463A33F00BBC4CB /* Network */,
-				004FC7702463A33F00BBC4CB /* View */,
-				004FC76E2463A33F00BBC4CB /* ViewController */,
-				004FC7712463A33F00BBC4CB /* ViewModel */,
-			);
-			path = Home;
-			sourceTree = "<group>";
-		};
 		004FC7692463A2D300BBC4CB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
@@ -275,53 +260,9 @@
 				007BC54F2463AAF000A1560B /* CoordinatorProtocol.swift */,
 				00F16DBE246C580100808759 /* CharactersCoordinator.swift */,
 				00F16DC0246C581300808759 /* FavoritesCoordinator.swift */,
+				00F16DC8246CE22400808759 /* DetailCoordinator.swift */,
 			);
 			path = Coordinator;
-			sourceTree = "<group>";
-		};
-		004FC76E2463A33F00BBC4CB /* ViewController */ = {
-			isa = PBXGroup;
-			children = (
-				004FC7822463A3A900BBC4CB /* HomeViewController.swift */,
-			);
-			path = ViewController;
-			sourceTree = "<group>";
-		};
-		004FC76F2463A33F00BBC4CB /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		004FC7702463A33F00BBC4CB /* View */ = {
-			isa = PBXGroup;
-			children = (
-				004FC7842463A4BA00BBC4CB /* HomeView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		004FC7712463A33F00BBC4CB /* ViewModel */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = ViewModel;
-			sourceTree = "<group>";
-		};
-		004FC7722463A33F00BBC4CB /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				004FC7732463A33F00BBC4CB /* Service */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		004FC7732463A33F00BBC4CB /* Service */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Service;
 			sourceTree = "<group>";
 		};
 		004FC7742463A34B00BBC4CB /* Model */ = {
@@ -595,7 +536,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				004FC7832463A3A900BBC4CB /* HomeViewController.swift in Sources */,
 				004FC7812463A37300BBC4CB /* AppCoordinator.swift in Sources */,
 				00F16DBF246C580100808759 /* CharactersCoordinator.swift in Sources */,
 				00E5ACF12465D99F00D70020 /* CharactersModel.swift in Sources */,
@@ -604,13 +544,13 @@
 				00C142A324646C7800B49F8D /* FavoritesView.swift in Sources */,
 				00C1429F24646C5D00B49F8D /* CharactersView.swift in Sources */,
 				007BC5502463AAF000A1560B /* CoordinatorProtocol.swift in Sources */,
+				00F16DC9246CE22400808759 /* DetailCoordinator.swift in Sources */,
 				00E5ACF92466282F00D70020 /* CharacterCollectionViewCell.swift in Sources */,
 				00E5ACF52465F09000D70020 /* Keys.swift in Sources */,
 				00E5ACF72465FF7F00D70020 /* String+MD5.swift in Sources */,
 				00C142A52465CE9100B49F8D /* CharactersViewModel.swift in Sources */,
 				007BC5532463B3BC00A1560B /* UIViewController+Coordinator.swift in Sources */,
 				00A7B3762469C107006672CA /* DetailViewController.swift in Sources */,
-				004FC7852463A4BA00BBC4CB /* HomeView.swift in Sources */,
 				004FC7402463A0BB00BBC4CB /* AppDelegate.swift in Sources */,
 				00C1429D24646C4E00B49F8D /* CharactersViewController.swift in Sources */,
 				00E5ACEF2465D8D600D70020 /* GetCharactersRequest.swift in Sources */,

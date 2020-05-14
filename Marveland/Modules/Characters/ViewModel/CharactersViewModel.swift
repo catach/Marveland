@@ -23,7 +23,6 @@ enum CharactersViewState {
 protocol CharactersViewModelType {
     init(service: CharactersServiceProtocol)
     func getCharacters(startingWith text: String?, startFromBeginning: Bool) -> Observable<CharactersViewState>
-    func toggleFavorite(_ model: CharacterModel?) -> Bool
 }
 
 class CharactersViewModel: CharactersViewModelType {
@@ -36,11 +35,7 @@ class CharactersViewModel: CharactersViewModelType {
     required init(service: CharactersServiceProtocol) {
         self.service = service
     }
-    
-    func toggleFavorite(_ model: CharacterModel?) -> Bool {
-        return favoriteManager.toggleFavorite(model)
-    }
-        
+            
     func getCharacters(startingWith text: String? = nil,
                        startFromBeginning: Bool = false) -> Observable<CharactersViewState> {
         var startFromBeginning = startFromBeginning

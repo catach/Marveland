@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SnapKit
 
 class FavoritesView: UIView {
     private(set) lazy var collectionView = buildCollectionView()

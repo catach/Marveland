@@ -35,7 +35,7 @@ class FavoritesViewModel {
         
         return Observable.create { (observer) -> Disposable in
             self.characters.onNext(Array(realm.objects(CharacterModel.self)
-                .filter("favorite = 1")))
+                .filter("favorite = true")))
             observer.onNext(.success)
             return Disposables.create()
         }.startWith(.loading)

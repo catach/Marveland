@@ -8,6 +8,10 @@
 
 import UIKit
 
+enum FavoritesCoordinatorEvent: AppEvent {
+    case showDetail(model: CharacterModel)
+}
+
 class FavoritesCoordinator: Coordinator {
     override func start(with completion: @escaping () -> Void = {}) {
         let favoritesViewController = FavoritesViewController()
@@ -26,7 +30,21 @@ class FavoritesCoordinator: Coordinator {
             fatalError(String(describing: type(of: self.rootViewController)))
         }
         
+        setupEvents()
+        
         super.start(with: completion)
     }
-
+    
+    private func setupEvents() {
+        self.add(eventType: FavoritesCoordinatorEvent.self) { [weak self] event in
+            switch event {
+            case .showDetail(let model):
+                let detailCoordinator = DetailCoordinator(
+                    self?.rootViewController,
+                    model
+                )
+                self?.startChild(coordinator: detailCoordinator)
+            }
+        }
+    }
 }
