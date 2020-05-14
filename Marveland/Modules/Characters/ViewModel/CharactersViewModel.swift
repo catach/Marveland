@@ -10,10 +10,6 @@ import RxSwift
 import Foundation
 import RealmSwift
 
-enum CharactersErrorState {
-    case unknown
-}
-
 enum CharactersViewState {
     case success
     case loading
@@ -74,9 +70,7 @@ class CharactersViewModel: CharactersViewModelType {
                 }
                 return .success
         }
-        .catchError { error -> Observable<CharactersViewState> in
-            .error(error)
-        }
+        .catchErrorJustReturn(.error)
         .startWith(.loading)
     }
 }
