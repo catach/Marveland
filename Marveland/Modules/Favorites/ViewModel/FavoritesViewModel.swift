@@ -11,7 +11,7 @@ import RealmSwift
 import RxSwift
 
 enum FavoritesViewState {
-    case success
+    case success(isEmpty: Bool)
     case loading
     case error
 }
@@ -34,9 +34,10 @@ class FavoritesViewModel {
         guard let realm = try? Realm() else { return Observable.just(.error) }
         
         return Observable.create { (observer) -> Disposable in
-            self.characters.onNext(Array(realm.objects(CharacterModel.self)
-                .filter("favorite = true")))
-            observer.onNext(.success)
+            let chars = Array(realm.objects(CharacterModel.self)
+            .filter("favorite = true").sorted(byKeyPath: "name"))
+            self.characters.onNext(chars)
+            observer.onNext(chars.count == 0 ? .success(isEmpty: true) : .success(isEmpty: false))
             return Disposables.create()
         }.startWith(.loading)
     }

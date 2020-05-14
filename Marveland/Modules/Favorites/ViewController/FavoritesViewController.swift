@@ -12,8 +12,11 @@ import RxCocoa
 
 class FavoritesViewController: UIViewController {
     let containerView = FavoritesView()
+    internal let emptyView = StateView(state: .empty)
+    internal let loadingView = StateView(state: .loading)
+    internal let errorView = StateView(state: .error)
     private let disposeBag = DisposeBag()
-    private var characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
+    internal var characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
     private var viewModel = FavoritesViewModel()
     
     override func loadView() {
@@ -117,15 +120,23 @@ extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
 extension Reactive where Base: FavoritesViewController {
     
     var state: Binder<FavoritesViewState> {
-        return Binder(base) { _, state in
+        return Binder(base) { controller, state in
             switch state {
-            case .success:
-                break
+            case .success(let isEmpty):
+                if isEmpty {
+                    controller.containerView.collectionView.backgroundView = controller.emptyView
+                } else {
+                    controller.containerView.collectionView.backgroundView = UIView()
+                }
             case .loading:
-                break
+                if let count = try? controller.characters.value().count, count == 0 {
+                    controller.containerView.collectionView.backgroundView = controller.loadingView
+                }
             case .error:
-                break
+                controller.characters.onNext([])
+                controller.containerView.collectionView.backgroundView = controller.errorView
             }
+            controller.view.setNeedsLayout()
         }
     }
 }

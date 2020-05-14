@@ -15,12 +15,29 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="marvel" translatesAutoresizingMaskIntoConstraints="NO" id="jBk-u7-WsV">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="marvel" translatesAutoresizingMaskIntoConstraints="NO" id="jBk-u7-WsV">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Data provided by Marvel. © 2014 Marvel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vnw-2u-0IV">
+                                <rect key="frame" x="43.5" y="746" width="327" height="35"/>
+                                <color key="backgroundColor" systemColor="systemYellowColor" red="1" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="35" id="CDX-Nm-rrq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="jBk-u7-WsV" secondAttribute="bottom" constant="34" id="8Pz-W4-9Bz"/>
+                            <constraint firstItem="jBk-u7-WsV" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="9qb-P0-Ehw"/>
+                            <constraint firstItem="jBk-u7-WsV" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="SDM-iv-iiS"/>
+                            <constraint firstItem="jBk-u7-WsV" firstAttribute="baseline" secondItem="vnw-2u-0IV" secondAttribute="firstBaseline" constant="100" id="Top-SX-fw5"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="top" secondItem="jBk-u7-WsV" secondAttribute="top" id="YIZ-Jq-oVm"/>
+                            <constraint firstItem="vnw-2u-0IV" firstAttribute="centerX" secondItem="jBk-u7-WsV" secondAttribute="centerX" id="oJ9-e0-ixk"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                 </viewController>

@@ -13,9 +13,12 @@ import Moya
 import Kingfisher
 
 class CharactersViewController: UIViewController {
-    private let containerView = CharactersView()
+    internal let containerView = CharactersView()
+    internal let emptyView = StateView(state: .empty)
+    internal let loadingView = StateView(state: .loading)
+    internal let errorView = StateView(state: .error)
     private let disposeBag = DisposeBag()
-    private var characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
+    internal var characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
     private var viewModel: CharactersViewModel?
     private let favoriteManager = FavoriteManager()
     
@@ -119,7 +122,7 @@ extension CharactersViewController: UICollectionViewDelegateFlowLayout {
         
         let size = Int((collectionView.bounds.width - totalSpace) / CGFloat(cellsInRow))
         
-        return CGSize(width: size, height: Int(Double(size) * 1.68))
+        return CGSize(width: size, height: Int(Double(size) * .goldenNumber))
     }
 }
 
@@ -146,17 +149,29 @@ extension CharactersViewController: UISearchBarDelegate {
 extension Reactive where Base: CharactersViewController {
     
     var state: Binder<CharactersViewState> {
-        return Binder(base) { _, state in
+        return Binder(base) { controller, state in
             switch state {
-            case .success:
-                break
+            case .success(let isEmpty):
+                if isEmpty {
+                    controller.containerView.collectionView.backgroundView = controller.emptyView
+                } else {
+                    controller.containerView.collectionView.backgroundView = UIView()
+                }
             case .loading:
-                break
+                if let count = try? controller.characters.value().count, count == 0 {
+                    controller.containerView.collectionView.backgroundView = controller.loadingView
+                }
             case .error:
-                break
+                controller.characters.onNext([])
+                controller.containerView.collectionView.backgroundView = controller.errorView
             }
+            controller.view.setNeedsLayout()
         }
     }
+}
+
+private extension Double {
+    static let goldenNumber = 1.68
 }
 
 private extension CGFloat {

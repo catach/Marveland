@@ -11,7 +11,7 @@ import Foundation
 import RealmSwift
 
 enum CharactersViewState {
-    case success
+    case success(Bool)
     case loading
     case error
 }
@@ -68,7 +68,7 @@ class CharactersViewModel: CharactersViewModelType {
                 } catch {
                     print(error)
                 }
-                return .success
+                return model.characters.isEmpty ? .success(true) : .success(false)
         }
         .catchErrorJustReturn(.error)
         .startWith(.loading)
