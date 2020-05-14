@@ -39,6 +39,10 @@ class CharactersViewController: UIViewController {
             .disposed(by: disposeBag)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        containerView.collectionView.reloadData()
+    }
+    
     private func handleFavorite(_ char: CharacterModel, _ cell: CharacterCollectionViewCell) {
         if let favOn = self.viewModel?.toggleFavorite(char), favOn == true {
             cell.favorite.setImage(UIImage(named: "onFav"), for: .normal)
@@ -70,7 +74,7 @@ class CharactersViewController: UIViewController {
         
         containerView.collectionView.rx.modelSelected(CharacterModel.self)
             .subscribe(onNext: { model in
-                let event = AppCoordinatorEvent.showDetail(model: model, viewModel: self.viewModel)
+                let event = CharactersCoordinatorEvent.showDetail(model: model, viewModel: self.viewModel)
                 do {
                     try self.parentCoordinator?.handle(event: event)
                 } catch {

@@ -18,7 +18,6 @@
 		007BC54E2463AAD300A1560B /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007BC54D2463AAD300A1560B /* Coordinator.swift */; };
 		007BC5502463AAF000A1560B /* CoordinatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007BC54F2463AAF000A1560B /* CoordinatorProtocol.swift */; };
 		007BC5532463B3BC00A1560B /* UIViewController+Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007BC5522463B3BC00A1560B /* UIViewController+Coordinator.swift */; };
-		007BC5552463B4D700A1560B /* HomeCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 007BC5542463B4D700A1560B /* HomeCoordinator.swift */; };
 		00A7B3762469C107006672CA /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7B3752469C107006672CA /* DetailViewController.swift */; };
 		00A7B3782469C176006672CA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00A7B3772469C176006672CA /* DetailView.swift */; };
 		00C1429D24646C4E00B49F8D /* CharactersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00C1429C24646C4E00B49F8D /* CharactersViewController.swift */; };
@@ -34,6 +33,10 @@
 		00E5ACF52465F09000D70020 /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E5ACF42465F09000D70020 /* Keys.swift */; };
 		00E5ACF72465FF7F00D70020 /* String+MD5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E5ACF62465FF7F00D70020 /* String+MD5.swift */; };
 		00E5ACF92466282F00D70020 /* CharacterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E5ACF82466282F00D70020 /* CharacterCollectionViewCell.swift */; };
+		00F16DBF246C580100808759 /* CharactersCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F16DBE246C580100808759 /* CharactersCoordinator.swift */; };
+		00F16DC1246C581300808759 /* FavoritesCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F16DC0246C581300808759 /* FavoritesCoordinator.swift */; };
+		00F16DC3246C5EF500808759 /* FavoritesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F16DC2246C5EF500808759 /* FavoritesViewModel.swift */; };
+		00F16DC7246C96D900808759 /* FavoriteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00F16DC6246C96D900808759 /* FavoriteManager.swift */; };
 		17C6103F2279DA8D26DFBDA2 /* Pods_Marveland.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 10E66A23CC47A93D32136F43 /* Pods_Marveland.framework */; };
 		71AD9C6209A612C7E551297E /* Pods_MarvelandTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 72F5D093B49EF95BD146E98A /* Pods_MarvelandTests.framework */; };
 /* End PBXBuildFile section */
@@ -64,7 +67,6 @@
 		007BC54D2463AAD300A1560B /* Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coordinator.swift; sourceTree = "<group>"; };
 		007BC54F2463AAF000A1560B /* CoordinatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinatorProtocol.swift; sourceTree = "<group>"; };
 		007BC5522463B3BC00A1560B /* UIViewController+Coordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Coordinator.swift"; sourceTree = "<group>"; };
-		007BC5542463B4D700A1560B /* HomeCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeCoordinator.swift; sourceTree = "<group>"; };
 		00A7B3752469C107006672CA /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		00A7B3772469C176006672CA /* DetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; };
 		00C1429C24646C4E00B49F8D /* CharactersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewController.swift; sourceTree = "<group>"; };
@@ -80,6 +82,10 @@
 		00E5ACF42465F09000D70020 /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
 		00E5ACF62465FF7F00D70020 /* String+MD5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+MD5.swift"; sourceTree = "<group>"; };
 		00E5ACF82466282F00D70020 /* CharacterCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterCollectionViewCell.swift; sourceTree = "<group>"; };
+		00F16DBE246C580100808759 /* CharactersCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersCoordinator.swift; sourceTree = "<group>"; };
+		00F16DC0246C581300808759 /* FavoritesCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesCoordinator.swift; sourceTree = "<group>"; };
+		00F16DC2246C5EF500808759 /* FavoritesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesViewModel.swift; sourceTree = "<group>"; };
+		00F16DC6246C96D900808759 /* FavoriteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteManager.swift; sourceTree = "<group>"; };
 		0FB86F6013799210D5B9493C /* Pods-Marveland.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Marveland.release.xcconfig"; path = "Target Support Files/Pods-Marveland/Pods-Marveland.release.xcconfig"; sourceTree = "<group>"; };
 		10E66A23CC47A93D32136F43 /* Pods_Marveland.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Marveland.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B3D62B90C07F5924DE1ED23 /* Pods-MarvelandTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MarvelandTests.debug.xcconfig"; path = "Target Support Files/Pods-MarvelandTests/Pods-MarvelandTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -134,6 +140,7 @@
 			children = (
 				007BC5512463B3AB00A1560B /* Extensions */,
 				004FC7652463A26E00BBC4CB /* Support */,
+				00F16DC5246C96C100808759 /* Managers */,
 				004FC76D2463A30200BBC4CB /* Coordinator */,
 				004FC7612463A23900BBC4CB /* Modules */,
 			);
@@ -185,7 +192,6 @@
 			isa = PBXGroup;
 			children = (
 				004FC7742463A34B00BBC4CB /* Model */,
-				004FC7762463A34B00BBC4CB /* Network */,
 				004FC7752463A34B00BBC4CB /* View */,
 				004FC7782463A34B00BBC4CB /* ViewController */,
 				004FC7792463A34B00BBC4CB /* ViewModel */,
@@ -267,7 +273,8 @@
 				004FC7802463A37300BBC4CB /* AppCoordinator.swift */,
 				007BC54D2463AAD300A1560B /* Coordinator.swift */,
 				007BC54F2463AAF000A1560B /* CoordinatorProtocol.swift */,
-				007BC5542463B4D700A1560B /* HomeCoordinator.swift */,
+				00F16DBE246C580100808759 /* CharactersCoordinator.swift */,
+				00F16DC0246C581300808759 /* FavoritesCoordinator.swift */,
 			);
 			path = Coordinator;
 			sourceTree = "<group>";
@@ -332,21 +339,6 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		004FC7762463A34B00BBC4CB /* Network */ = {
-			isa = PBXGroup;
-			children = (
-				004FC7772463A34B00BBC4CB /* Service */,
-			);
-			path = Network;
-			sourceTree = "<group>";
-		};
-		004FC7772463A34B00BBC4CB /* Service */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Service;
-			sourceTree = "<group>";
-		};
 		004FC7782463A34B00BBC4CB /* ViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -358,6 +350,7 @@
 		004FC7792463A34B00BBC4CB /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				00F16DC2246C5EF500808759 /* FavoritesViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -385,6 +378,14 @@
 				00E5ACF62465FF7F00D70020 /* String+MD5.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		00F16DC5246C96C100808759 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				00F16DC6246C96D900808759 /* FavoriteManager.swift */,
+			);
+			path = Managers;
 			sourceTree = "<group>";
 		};
 		DC063E5237E085EF7BD67958 /* Frameworks */ = {
@@ -596,7 +597,10 @@
 			files = (
 				004FC7832463A3A900BBC4CB /* HomeViewController.swift in Sources */,
 				004FC7812463A37300BBC4CB /* AppCoordinator.swift in Sources */,
+				00F16DBF246C580100808759 /* CharactersCoordinator.swift in Sources */,
 				00E5ACF12465D99F00D70020 /* CharactersModel.swift in Sources */,
+				00F16DC1246C581300808759 /* FavoritesCoordinator.swift in Sources */,
+				00F16DC3246C5EF500808759 /* FavoritesViewModel.swift in Sources */,
 				00C142A324646C7800B49F8D /* FavoritesView.swift in Sources */,
 				00C1429F24646C5D00B49F8D /* CharactersView.swift in Sources */,
 				007BC5502463AAF000A1560B /* CoordinatorProtocol.swift in Sources */,
@@ -608,13 +612,13 @@
 				00A7B3762469C107006672CA /* DetailViewController.swift in Sources */,
 				004FC7852463A4BA00BBC4CB /* HomeView.swift in Sources */,
 				004FC7402463A0BB00BBC4CB /* AppDelegate.swift in Sources */,
-				007BC5552463B4D700A1560B /* HomeCoordinator.swift in Sources */,
 				00C1429D24646C4E00B49F8D /* CharactersViewController.swift in Sources */,
 				00E5ACEF2465D8D600D70020 /* GetCharactersRequest.swift in Sources */,
 				00A7B3782469C176006672CA /* DetailView.swift in Sources */,
 				00E5ACEA2465D69400D70020 /* CharactersService.swift in Sources */,
 				00E5ACED2465D80000D70020 /* CharactersTargetType.swift in Sources */,
 				00C142A124646C6C00B49F8D /* FavoritesViewController.swift in Sources */,
+				00F16DC7246C96D900808759 /* FavoriteManager.swift in Sources */,
 				007BC54E2463AAD300A1560B /* Coordinator.swift in Sources */,
 				00E5ACF32465DAA900D70020 /* GetCharactersResponse.swift in Sources */,
 			);

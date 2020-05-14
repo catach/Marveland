@@ -14,7 +14,7 @@ class FavoritesViewController: UIViewController {
     let containerView = FavoritesView()
     private let disposeBag = DisposeBag()
     private var characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
-    private var viewModel: CharactersViewModel?
+    private var viewModel = FavoritesViewModel()
     
     override func loadView() {
         view = containerView
@@ -26,14 +26,16 @@ class FavoritesViewController: UIViewController {
         containerView.collectionView.delegate = self
         
         setupBindings()
-        
-        viewModel?.getFavorites()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        viewModel.getFavorites()
             .bind(to: rx.state)
-            .disposed(by: disposeBag)
+            .disposed(by: disposeBag)        
     }
     
     private func handleFavorite(_ char: CharacterModel, _ cell: CharacterCollectionViewCell) {
-        if let favOn = self.viewModel?.toggleFavorite(char), favOn == true {
+        if self.viewModel.toggleFavorite(char) == true {
             cell.favorite.setImage(UIImage(named: "onFav"), for: .normal)
         } else {
             cell.favorite.setImage(UIImage(named: "offFav"), for: .normal)
@@ -60,18 +62,8 @@ class FavoritesViewController: UIViewController {
                 cell.favorite.setImage(image, for: .normal)
                 
         }.disposed(by: disposeBag)
-        
-        containerView.collectionView.rx.modelSelected(CharacterModel.self)
-            .subscribe(onNext: { model in
-                let event = AppCoordinatorEvent.showDetail(model: model, viewModel: self.viewModel)
-                do {
-                    try self.parentCoordinator?.handle(event: event)
-                } catch {
-                    fatalError("Cant't open \(event)")
-                }
-            }).disposed(by: disposeBag)
-        
-        viewModel?
+                
+        viewModel
             .characters
             .observeOn(ConcurrentDispatchQueueScheduler(qos: .background))
             .bind(to: self.characters)
@@ -83,7 +75,7 @@ class FavoritesViewController: UIViewController {
         let contentHeight = scrollView.contentSize.height
         
         if offsetY + .offset > contentHeight - scrollView.frame.size.height {
-            viewModel?.getCharacters()
+            viewModel.getFavorites()
                 .bind(to: rx.state)
                 .disposed(by: disposeBag)
         }
@@ -114,7 +106,7 @@ extension FavoritesViewController: UICollectionViewDelegateFlowLayout {
 
 extension Reactive where Base: FavoritesViewController {
     
-    var state: Binder<CharactersViewState> {
+    var state: Binder<FavoritesViewState> {
         return Binder(base) { _, state in
             switch state {
             case .success:

@@ -8,12 +8,6 @@
 
 import UIKit
 
-enum AppCoordinatorEvent: AppEvent {
-    case openHome
-    case showDetail(model: CharacterModel, viewModel: CharactersViewModel?)
-    case backHome
-}
-
 class AppCoordinator: Coordinator {
 
     private let window: UIWindow?
@@ -30,35 +24,25 @@ class AppCoordinator: Coordinator {
 
     override func start(with completion: @escaping () -> Void = {}) {
         setupWindow()
-        setupEvents()
+        setupTabBar()
         super.start(with: completion)
-    }
-
-    private func setupEvents() {
-        add(eventType: AppCoordinatorEvent.self) { [weak self] event in
-            switch event {
-            case .openHome:
-                self?.setupTabBar()
-                self?.startChild(coordinator: HomeCoordinator(rootViewController: self?.rootViewController))
-            case .showDetail(let model, let viewModel):
-                let navController = self?.rootViewController as? UINavigationController
-                let controller = DetailViewController(model: model, viewModel: viewModel)
-                controller.parentCoordinator = self
-                navController?.pushViewController(controller, animated: true)
-                
-            case .backHome:
-                let navController = self?.rootViewController as? UINavigationController
-                navController?.popViewController(animated: true)
-            }
-        }
     }
 
     private func setupTabBar() {
         let tabBarController = UITabBarController()
         let navController = UINavigationController(rootViewController: tabBarController)
         navController.navigationBar.isHidden = true
+        
         self.rootViewController = navController
         self.rootViewController?.parentCoordinator = self
         self.window?.rootViewController = self.rootViewController
+        
+        let charactersCoordinator = CharactersCoordinator(rootViewController: navController)
+        let favoritesCoordinator = FavoritesCoordinator(rootViewController: navController)
+        
+        self.startChild(coordinator: charactersCoordinator)
+        self.startChild(coordinator: favoritesCoordinator)
+        
+        tabBarController.selectedIndex = 0
     }
 }

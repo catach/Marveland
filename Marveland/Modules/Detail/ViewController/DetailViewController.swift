@@ -79,7 +79,7 @@ class DetailViewController: UIViewController {
     
     internal func back() {
         do {
-            try self.parentCoordinator?.handle(event: AppCoordinatorEvent.backHome)
+            try self.parentCoordinator?.handle(event: CharactersCoordinatorEvent.showCharacters)
         } catch {
             fatalError("Can't handle event \(error)")
         }

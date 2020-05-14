@@ -25,6 +25,7 @@ class CharacterModel: Object {
 
 struct CharactersModel {
     var characters: [CharacterModel] = []
+    let favoriteManager = FavoriteManager()
     
     init(from response: GetCharactersResponse) {
         var imagePortrait: String?
@@ -43,6 +44,7 @@ struct CharactersModel {
             char.imagePortrait = imagePortrait
             char.imageLandscape = imageLandscape
             char.bio = character.bio
+            char.favorite = favoriteManager.isFavorite(character.charId ?? 0)
             char.comicsAppearances = character.comicsAppearances
             _ = character.comics.compactMap {
                 if let name = $0.name {

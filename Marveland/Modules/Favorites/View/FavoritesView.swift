@@ -18,7 +18,7 @@ class FavoritesView: UIView {
     }
     
     override func didMoveToSuperview() {
-        super.didMoveToSuperview()
+        if self.superview == nil { return }
         setupView()
         addSubviews()
         setupConstraints()

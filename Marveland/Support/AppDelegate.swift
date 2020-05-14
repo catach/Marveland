@@ -19,13 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         self.window = window
         self.rootCoordinator = AppCoordinator(window: window)
         self.rootCoordinator?.start()
-        do {
-            try self.rootCoordinator?.handle(event: AppCoordinatorEvent.openHome)
-        } catch {
-            if case let AppEventError.eventNotHandled(event) = error {
-                fatalError("event not handled: [\(String(reflecting: type(of: event)))]")
-            }
-        }
+        
         return true
     }
 }

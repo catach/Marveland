@@ -29,6 +29,7 @@ protocol CharactersViewModelType {
 class CharactersViewModel: CharactersViewModelType {
     
     private let service: CharactersServiceProtocol
+    private let favoriteManager = FavoriteManager()
     private var offset = 0
     public let characters: BehaviorSubject<[CharacterModel]> = BehaviorSubject(value: [])
     
@@ -37,26 +38,9 @@ class CharactersViewModel: CharactersViewModelType {
     }
     
     func toggleFavorite(_ model: CharacterModel?) -> Bool {
-        guard let realm = try? Realm() else { return false }
-            
-        guard let model = model else { return false }
-                
-        let character = realm.object(ofType: CharacterModel.self, forPrimaryKey: model.charId)
-        
-        if character == nil {
-            try? realm.write {
-                model.favorite = true
-                realm.add(model, update: .all)
-            }
-            return true
-        } else {
-            try? realm.write {
-                model.favorite = !model.favorite
-            }
-            return model.favorite
-        }
+        return favoriteManager.toggleFavorite(model)
     }
-    
+        
     func getCharacters(startingWith text: String? = nil,
                        startFromBeginning: Bool = false) -> Observable<CharactersViewState> {
         var startFromBeginning = startFromBeginning

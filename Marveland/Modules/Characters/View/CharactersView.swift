@@ -20,7 +20,7 @@ class CharactersView: UIView {
     }
     
     override func didMoveToSuperview() {
-        super.didMoveToSuperview()
+        if self.superview == nil { return }
         setupView()
         setupSearchBar()
         addSubviews()
@@ -45,10 +45,6 @@ class CharactersView: UIView {
     // MARK: - View setup
     
     private func setupView() {
-        self.snp.makeConstraints { make in
-            make.top.width.bottom.height.equalToSuperview()
-        }
-        
         self.backgroundColor = .white
     }
     
@@ -66,6 +62,10 @@ class CharactersView: UIView {
     }
 
     private func setupConstraints() {
+        self.snp.makeConstraints { make in
+            make.top.width.bottom.height.equalToSuperview()
+        }
+        
         searchBar.snp.makeConstraints { (make) in
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.width.equalToSuperview()
